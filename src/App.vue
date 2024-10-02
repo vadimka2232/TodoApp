@@ -1,15 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <header class="header">
+      <TitleComp msg="Todo"/>
+      <TitleComp msg="Profiles"/>
+    </header>
+    <main class="main">
+      <TableComp />
+    </main>
+
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import './normalize.css'
+import TitleComp from './components/TitleComp.vue'
+import TableComp from './components/TableComp.vue'  
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: { 
+    TitleComp,
+    TableComp
   }
 }
 </script>
@@ -21,6 +32,26 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
+}
+.container {
+  max-width: 100wh;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: #859db6;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 30px 0 0 0;
+}
+.header:hover{
+  cursor: pointer;
+}
+
+.main {
+margin: 20px 0;
 }
 </style>
