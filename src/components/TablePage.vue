@@ -1,17 +1,20 @@
 <template>
-
   <div class="Table">
     <table border="1">
       <thead>
         <tr class="Table_title">
           <th>ID</th>
           <th>Todo</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in todos" :key="item.id" class="tr-item">
           <td class="tr-id">{{ item.id }}</td>
           <td>{{ item.todo }}</td>
+          <td>
+            <button @click="deleteTodo(item.id)" class="delete-button">Удалить</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -25,34 +28,58 @@ export default {
       type: Array,
       required: true
     }
+  },
+  methods: {
+    deleteTodo(id) {
+      this.$emit('updateTodos', this.todos.filter(item => item.id !== id));
+    }
   }
 };
 </script>
 
 <style>
- .Table {
+.Table {
   display: flex;
-  justify-content: center ;
-  }
-
-
-table td, table th {
-  padding: 8px; /* Добавляем отступы для всех ячеек */
+  flex-direction: column;
+  align-items: center;
 }
 
-table td:first-child, table th:first-child{
-  width: 40px; /* Фиксированная ширина для колонки с ID */
-  text-align: left; /* Выровняем текст по правому краю */
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+table td,
+table th {
+  padding: 8px;
+  text-align: center;
+}
+
+table td:first-child,
+table th:first-child {
+  width: 40px;
 }
 
 table td {
-  text-align: left; /* Выровняем текст в остальных ячейках по левому краю */
-  border-bottom: 1px solid rgb(78, 76, 76); /* Линия под заголовками */
+  border-bottom: 1px solid rgb(78, 76, 76);
 }
 
 .Table_title th {
-  border-bottom: 2px solid black; /* Линия под заголовками */
-  padding-bottom: 8px; /* Отступ снизу заголовка */
-  text-align: left; /* Выровняем текст по левому краю */
+  border-bottom: 2px solid black;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #ff1a1a;
 }
 </style>
