@@ -1,14 +1,8 @@
 <template>
   <div class="container">
     <header class="header">
-      <TitleComp 
-        msg="Profiles" 
-        @click="setActiveComponent('profiles')" 
-      />
-      <TitleComp 
-        msg="Todo" 
-        @click="setActiveComponent('todos')" 
-      />
+      <h1>Profiles</h1>
+      <h1>Todo</h1>
     </header>
     <main class="main">
       <component 
