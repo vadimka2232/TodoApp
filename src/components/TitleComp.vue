@@ -1,16 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>Profiles</h1>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'TitleComp',
-  props: {
-    msg: String
+<script lang='ts'>
+import { defineComponent } from 'vue';
+export default defineComponent({
+  setup() {
+
+    return {};
   }
-}
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

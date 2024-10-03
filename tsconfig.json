@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "esnext", // Целевая версия JavaScript
+      "module": "esnext", // Используем модульную систему
+      "strict": true, // Включаем строгую проверку типов
+      "jsx": "preserve", // Если используете JSX (например, с React)
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "./",
+      "resolveJsonModule": true,
+      "paths": {
+        "@/*": ["src/*"]
+      }
+    },
+    "include": ["src/**/*"], // Указываем, какие файлы TypeScript будет проверять
+    "exclude": ["node_modules", "dist"] // Исключаем папки, которые не нужно проверять
+  }
+  

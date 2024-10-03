@@ -1,41 +1,46 @@
 <template>
   <div>
-    <PaginationComp :todos="todos" /> <!-- Используем компонент пагинации -->
+    <TablePage :todos="todos" @updateTodos="handleUpdateTodos" /> <!-- Используем компонент -->
   </div>
 </template>
 
-<script>
-import PaginationComp from './PaginationComp.vue'; // Импортируем компонент пагинации
+<script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue';
+import TablePage from './TablePage.vue'; 
 
-export default {
-  components: {
-    PaginationComp
-  },    
+export default defineComponent({
   props: {
     selectedProfile: {
-      type: Object, // Задаем тип данных как число
-      required: true // Обозначаем, что этот пропс обязателен
+      type: Object,
+      required: true
     }
   },
-  data() {
-    return {
-      todos: [] // Инициализируем пустой массив
-    };
-  },
-  async mounted() {
-    // Асинхронно загружаем данные, когда компонент смонтирован
-    let response = await fetch('https://dummyjson.com/todos?limit=150');
-    let data = await response.json();
-    this.todos = data.todos; // Заполняем массив данными
-    // console.log(this.todos.map(e=> e.userId))
-    this.todos = this.todos.map(e => {
-      if (e.userId < 50) {e.userId = 13} return e
-    })
-    this.todos = this.todos.filter(e => e.userId == this.selectedProfile.userId)
-    // console.log(this.todos)
-  }
-};
-</script>
+  setup(props) {
+    const todos = ref([]); 
 
-<style>
-</style>
+    onMounted(async () => {
+      if (props.selectedProfile?.userId) {
+        const response = await fetch('https://dummyjson.com/todos?limit=150');
+        const data = await response.json();
+        
+        todos.value = data.todos.map(todo => {
+          if (todo.userId < 50) { todo.userId = 13; } 
+          return todo;
+        }).filter(todo => todo.userId === props.selectedProfile.userId);
+      } else {
+        todos.value = [];
+      }
+    });
+
+    function handleUpdateTodos(updatedTodos) {
+      todos.value = updatedTodos;
+    }
+
+    return {
+      todos,
+      handleUpdateTodos,
+      TablePage
+    };
+  }
+});
+</script>

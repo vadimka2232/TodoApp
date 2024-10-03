@@ -1,71 +1,37 @@
 <template>
-  <div>
-    <TablePage :todos="paginatedTodos" @updateTodos="updateTodos" />
-
-    <div class="pagination">
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        @click="changePage(page)"
-        :class="{ active: currentPage === page }"
-      >
-        {{ page }}
-      </button>
-    </div>
+  <div class="pagination">
+    <button
+      v-for="page in totalPages"
+      :key="page"
+      @click="changePage(page)"
+      :class="{ active: currentPage === page }"
+    >
+      {{ page }}
+    </button>
   </div>
 </template>
 
-<script>
-import TablePage from './TablePage.vue';
+<script lang='ts'>
+import { defineComponent,computed,ref } from 'vue';
 
-export default {
-  components: {
-    TablePage
-  },
-  props: {
-    todos: {
-      type: Array,
-      required: true
-    }
-  },
-  data() {
-    return {
-      currentPage: 1,
-      itemsPerPage: 15,
-      localTodos: []
+interface ComponentProps {
+  totalPages:number
+  currentPage:number
+}
+
+
+export default defineComponent({
+  setup(props:ComponentProps, { emit }) {
+    let totalPages  = computed(() => props.totalPages);
+    let currentPage = ref(1);
+
+    function changePage(page:number) {
+      if (page >= 1 && page <= totalPages.value) {
+        emit('changePage', page);
+      }
     };
-  },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.localTodos.length / this.itemsPerPage);
-    },
-    paginatedTodos() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      return this.localTodos.slice(start, end);
-    }
-  },
-  methods: {
-    changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-      }
-    },
-    updateTodos(newTodos) {
-      this.localTodos = newTodos;
-
-      this.$emit('updateTodos', newTodos);
-    }
-  },
-  watch: {
-    todos: {
-      immediate: true,
-      handler(newTodos) {
-        this.localTodos = [...newTodos];
-      }
-    }
   }
-};
+});
 </script>
 
 <style>
